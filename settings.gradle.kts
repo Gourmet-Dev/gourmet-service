@@ -1,3 +1,3 @@
 rootProject.name = "gourmet-service"
-include("module-core-place")
-include("module-api-place")
+include(":module-core-place")
+include(":module-api-place")

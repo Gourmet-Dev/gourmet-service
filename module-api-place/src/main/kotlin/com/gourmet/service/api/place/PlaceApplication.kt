@@ -1,11 +1,11 @@
-package com.gourmet.moduleapiplace
+package com.gourmet.service.api.place
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class ModuleApiPlaceApplication
+class PlaceApplication
 
 fun main(args: Array<String>) {
-    runApplication<ModuleApiPlaceApplication>(*args)
+    runApplication<PlaceApplication>(*args)
 }
