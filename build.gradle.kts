@@ -44,23 +44,23 @@ subprojects {
     }
 }
 
-project(":module-core-place") {
+project(":core:gourmet-place-core") {
     dependencies {
-        implementation(project(":module-common"))
+        implementation(project(":common:gourmet-common-type"))
     }
 }
 
-project(":module-infra-place") {
+project(":infra:gourmet-place-persistence") {
     dependencies {
-        implementation(project(":module-common"))
-        implementation(project(":module-core-place"))
+        implementation(project(":common:gourmet-common-type"))
+        implementation(project(":core:gourmet-place-core"))
     }
 }
 
-project(":module-api-place") {
+project(":app:gourmet-place-api") {
     dependencies {
-        implementation(project(":module-common"))
-        implementation(project(":module-core-place"))
-        implementation(project(":module-infra-place"))
+        implementation(project(":common:gourmet-common-type"))
+        implementation(project(":core:gourmet-place-core"))
+        implementation(project(":infra:gourmet-place-persistence"))
     }
 }

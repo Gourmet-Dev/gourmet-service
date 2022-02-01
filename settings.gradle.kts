@@ -1,5 +1,5 @@
 rootProject.name = "gourmet-service"
-include(":module-common")
-include(":module-core-place")
-include(":module-infra-place")
-include(":module-api-place")
+include(":common:gourmet-common-type")
+include(":core:gourmet-place-core")
+include(":infra:gourmet-place-persistence")
+include(":app:gourmet-place-api")
