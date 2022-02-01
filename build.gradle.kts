@@ -50,9 +50,17 @@ project(":module-core-place") {
     }
 }
 
+project(":module-infra-place") {
+    dependencies {
+        implementation(project(":module-common"))
+        implementation(project(":module-core-place"))
+    }
+}
+
 project(":module-api-place") {
     dependencies {
         implementation(project(":module-common"))
         implementation(project(":module-core-place"))
+        implementation(project(":module-infra-place"))
     }
 }
