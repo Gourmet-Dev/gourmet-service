@@ -1,8 +1,8 @@
 plugins {
     kotlin("jvm") version "1.6.10"
     kotlin("plugin.spring") version "1.6.10"
-    id("org.springframework.boot") version "2.6.3" apply false
-    id("io.spring.dependency-management") version "1.0.11.RELEASE" apply false
+    id("org.springframework.boot") version "2.6.3"
+    id("io.spring.dependency-management") version "1.0.11.RELEASE"
 }
 
 allprojects {
@@ -41,5 +41,18 @@ subprojects {
         test {
             useJUnitPlatform()
         }
+    }
+}
+
+project(":module-core-place") {
+    dependencies {
+        implementation(project(":module-common"))
+    }
+}
+
+project(":module-api-place") {
+    dependencies {
+        implementation(project(":module-common"))
+        implementation(project(":module-core-place"))
     }
 }
