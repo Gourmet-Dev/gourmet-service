@@ -17,7 +17,7 @@ class MockedPlaceRepository : PlaceRepository {
                 "TestAddress0",
                 null,
                 emptyList(),
-                MockedPlaceEntity.MockedPoint2D(0, 0),
+                MockedPlaceEntity.MockedPoint2D(0.0, 0.0),
                 emptyList(),
                 currentTime,
                 currentTime
@@ -28,7 +28,7 @@ class MockedPlaceRepository : PlaceRepository {
                 "TestAddress1",
                 "TestThumbnail1",
                 listOf("TestImage1_0", "TestImage1_1"),
-                MockedPlaceEntity.MockedPoint2D(0, 0),
+                MockedPlaceEntity.MockedPoint2D(1.0, 2.0),
                 listOf("TestTag1_0", "TestTag1_1"),
                 currentTime.minusDays(5),
                 currentTime.minusDays(5)

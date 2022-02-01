@@ -16,15 +16,15 @@ data class MockedPlaceEntity(
     val updatedTime: OffsetDateTime? = OffsetDateTime.now()
 ) {
     data class MockedPoint2D(
-        val lat: Long,
-        val lon: Long
+        val lat: Double,
+        val lon: Double
     ) {
         fun toGeospatialPoint() = GeospatialPoint(lat, lon)
 
         companion object {
             fun fromGeospatialPoint(gpoint: GeospatialPoint) = MockedPoint2D(
-                gpoint.coordinates.getOrElse(0) { 0 },
-                gpoint.coordinates.getOrElse(1) { 0 }
+                gpoint.coordinates.getOrElse(0) { 0.0 },
+                gpoint.coordinates.getOrElse(1) { 0.0 }
             )
         }
     }
