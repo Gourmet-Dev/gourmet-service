@@ -1,66 +1,32 @@
 package com.gourmet.service.common.type
 
 import kotlin.math.abs
+import kotlin.math.cos
+import kotlin.math.pow
+import kotlin.math.sqrt
 
-class GeospatialPoint constructor(vararg params: Double) : Geospatial<GeospatialPoint>(params.size, params.toTypedArray()) {
-    override fun calcDistance(other: Geospatial<GeospatialPoint>): GeospatialPoint {
-        val point = GeospatialPoint(
-            *(if (dimension > other.dimension) coordinates else other.coordinates).toDoubleArray()
-        )
-        coordinates.zip(other.coordinates).mapIndexed { index, pair ->
-            point.coordinates[index] = abs(pair.first - pair.second)
-        }
-        return point
-    }
+class GeospatialPoint constructor(
+    vararg params: Double,
+    val distanceFormula: (GeospatialPoint, GeospatialPoint) -> Double = HAVERSINE_DISTANCE_FORMULA
+) : Geospatial(params.size, params.toTypedArray()) {
+    fun getLatitude(): Double = coordinates.getOrElse(0) { 0.0 }
+    fun getLongitude(): Double = coordinates.getOrElse(1) { 0.0 }
+    fun getAltitude(): Double = coordinates.getOrElse(2) { 0.0 }
 
-    override fun plus(other: Geospatial<GeospatialPoint>): GeospatialPoint {
-        val point = GeospatialPoint(
-            *(if (dimension > other.dimension) coordinates else other.coordinates).toDoubleArray()
-        )
-        coordinates.zip(other.coordinates).mapIndexed { index, pair ->
-            point.coordinates[index] = pair.first + pair.second
-        }
-        return point
-    }
+    fun calcDistance(other: GeospatialPoint) = sqrt(
+        distanceFormula(this, other).pow(2) + abs(getAltitude() - other.getAltitude()).pow(2)
+    )
 
-    override fun minus(other: Geospatial<GeospatialPoint>): GeospatialPoint {
-        val point = GeospatialPoint(
-            *(if (dimension > other.dimension) coordinates else other.coordinates).toDoubleArray()
-        )
-        coordinates.zip(other.coordinates).mapIndexed { index, pair ->
-            point.coordinates[index] = pair.first - pair.second
+    companion object {
+        val HAVERSINE_DISTANCE_FORMULA = fun(source: GeospatialPoint, destination: GeospatialPoint): Double {
+            val haversineFunction: (Double) -> Double = { radian -> ((1 - cos(radian)) / 2) }
+            val latDelta = abs(destination.getLatitude() - source.getLatitude()).toRadian()
+            val lonDelta = abs(destination.getLongitude() - source.getLongitude()).toRadian()
+            val latDeltaHav = haversineFunction(latDelta)
+            val lonDeltaHav = haversineFunction(lonDelta)
+            return 2 * earthRadiusAverageDistance * sqrt(
+                latDeltaHav + cos(source.getLatitude().toRadian()) * cos(destination.getLatitude().toRadian()) * lonDeltaHav
+            )
         }
-        return point
-    }
-
-    override fun times(other: Geospatial<GeospatialPoint>): GeospatialPoint {
-        val point = GeospatialPoint(
-            *(if (dimension > other.dimension) coordinates else other.coordinates).toDoubleArray()
-        )
-        coordinates.zip(other.coordinates).mapIndexed { index, pair ->
-            point.coordinates[index] = pair.first * pair.second
-        }
-        return point
-    }
-
-    override fun div(other: Geospatial<GeospatialPoint>): GeospatialPoint {
-        val point = GeospatialPoint(
-            *(if (dimension > other.dimension) coordinates else other.coordinates).toDoubleArray()
-        )
-        coordinates.zip(other.coordinates).mapIndexed { index, pair ->
-            point.coordinates[index] = pair.first / pair.second
-        }
-        return point
-    }
-
-    override fun rem(other: Geospatial<GeospatialPoint>): GeospatialPoint {
-        val geospatialPoint = GeospatialPoint(
-            *(if (dimension > other.dimension) coordinates else other.coordinates).toDoubleArray()
-        )
-        coordinates.zip(other.coordinates).mapIndexed { index, pair ->
-            geospatialPoint.coordinates[index] = pair.first % pair.second
-        }
-        return geospatialPoint
     }
 }
-

@@ -23,8 +23,8 @@ data class MockedPlaceEntity(
 
         companion object {
             fun fromGeospatialPoint(gpoint: GeospatialPoint) = MockedPoint2D(
-                gpoint.coordinates.getOrElse(0) { 0.0 },
-                gpoint.coordinates.getOrElse(1) { 0.0 }
+                gpoint.getLatitude(),
+                gpoint.getLongitude()
             )
         }
     }
