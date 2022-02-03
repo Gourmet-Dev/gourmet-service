@@ -1,9 +1,6 @@
 package com.gourmet.service.common.type
 
-import kotlin.math.abs
-import kotlin.math.cos
-import kotlin.math.pow
-import kotlin.math.sqrt
+import kotlin.math.*
 
 class GeospatialPoint constructor(
     vararg params: Double,
@@ -24,9 +21,10 @@ class GeospatialPoint constructor(
             val lonDelta = abs(destination.getLongitude() - source.getLongitude()).toRadian()
             val latDeltaHav = haversineFunction(latDelta)
             val lonDeltaHav = haversineFunction(lonDelta)
-            return 2 * earthRadiusAverageDistance * sqrt(
+            val sqrtResult = sqrt(
                 latDeltaHav + cos(source.getLatitude().toRadian()) * cos(destination.getLatitude().toRadian()) * lonDeltaHav
             )
+            return 2 * earthRadiusAverageDistance * asin(sqrtResult)
         }
     }
 }
