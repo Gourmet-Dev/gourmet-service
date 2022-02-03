@@ -8,7 +8,7 @@ class GeospatialPoint constructor(
 ) : Geospatial(params.size, params.toTypedArray()) {
     fun getLatitude(): Double = coordinates.getOrElse(0) { 0.0 }
     fun getLongitude(): Double = coordinates.getOrElse(1) { 0.0 }
-    fun getAltitude(): Double = coordinates.getOrElse(2) { 0.0 }
+    fun getAltitude(): Double = (coordinates.getOrElse(2) { 0.0 }) / 1000
 
     fun calcDistance(other: GeospatialPoint) = sqrt(
         distanceFormula(this, other).pow(2) + abs(getAltitude() - other.getAltitude()).pow(2)
