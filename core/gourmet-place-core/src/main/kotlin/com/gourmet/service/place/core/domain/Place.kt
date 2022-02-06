@@ -4,7 +4,7 @@ import com.gourmet.service.common.type.GeospatialPoint
 import java.time.OffsetDateTime
 
 data class Place(
-    val id: String?,
+    val id: Long?,
     val name: String,
     val addr: String,
     val thumbnail: String?,

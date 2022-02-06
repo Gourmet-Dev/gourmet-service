@@ -6,7 +6,7 @@ import com.gourmet.service.place.core.usecase.dto.GetAllPlacesData
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 data class GetAllPlacesResponse private constructor(
-    val id: String,
+    val id: Long,
     val name: String,
     val thumbnail: String?
 ) {

@@ -3,7 +3,7 @@ package com.gourmet.service.place.core.usecase.dto
 import com.gourmet.service.place.core.domain.Place
 
 data class GetAllPlacesData private constructor(
-    val id: String,
+    val id: Long,
     val name: String,
     val thumbnail: String? = null,
 ) {
