@@ -20,7 +20,7 @@ class GeospatialPoint constructor(vararg params: Double) : Geospatial(params.siz
                         cos(destination.getLatitude().toRadian()) *
                         lonDeltaHav
                 )
-                return 2 * earthRadiusAverageDistance * asin(sqrtResult)
+                return 2 * EARTH_RADIUS_AVERAGE_DISTANCE * asin(sqrtResult)
             }
         };
         abstract fun calculate(source: GeospatialPoint, destination: GeospatialPoint): Double

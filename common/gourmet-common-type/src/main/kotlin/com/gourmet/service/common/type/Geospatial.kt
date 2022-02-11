@@ -5,8 +5,8 @@ abstract class Geospatial(
     val coordinates: Array<Double>
 ) {
     companion object {
-        const val earthRadiusMeridianDistance: Double = 6367.45
-        const val earthRadiusEquatorDistance: Double = 6378.14
-        const val earthRadiusAverageDistance: Double = 6372.8
+        const val EARTH_RADIUS_MERIDIAN_DISTANCE: Double = 6367.45
+        const val EARTH_RADIUS_EQUATOR_DISTANCE: Double = 6378.14
+        const val EARTH_RADIUS_AVERAGE_DISTANCE: Double = 6372.8
     }
 }
