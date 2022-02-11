@@ -32,7 +32,7 @@ class GeospatialPoint constructor(vararg params: Double) : Geospatial(params.siz
 
     fun calcDistance(
         destination: GeospatialPoint,
-        formula: DistanceFormula
+        formula: DistanceFormula = DistanceFormula.HAVERSINE_DISTANCE_FORMULA
     ): Double = sqrt(
         formula.calculate(this, destination).pow(2) +
             (getAltitude() - destination.getAltitude()).pow(2)
