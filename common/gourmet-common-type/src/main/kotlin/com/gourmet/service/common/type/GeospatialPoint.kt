@@ -6,30 +6,35 @@ import kotlin.math.pow
 import kotlin.math.sqrt
 
 class GeospatialPoint constructor(vararg params: Double) : Geospatial(params.size, params.toTypedArray()) {
+    enum class DistanceFormula {
+        HAVERSINE_DISTANCE_FORMULA {
+            override fun calculate(source: GeospatialPoint, destination: GeospatialPoint): Double {
+                val haversineFunction: (Double) -> Double = { radian -> ((1 - cos(radian)) / 2) }
+                val latDelta = (destination.getLatitude() - source.getLatitude()).toRadian()
+                val lonDelta = (destination.getLongitude() - source.getLongitude()).toRadian()
+                val latDeltaHav = haversineFunction(latDelta)
+                val lonDeltaHav = haversineFunction(lonDelta)
+                val sqrtResult = sqrt(
+                    latDeltaHav +
+                        cos(source.getLatitude().toRadian()) *
+                        cos(destination.getLatitude().toRadian()) *
+                        lonDeltaHav
+                )
+                return 2 * earthRadiusAverageDistance * asin(sqrtResult)
+            }
+        };
+        abstract fun calculate(source: GeospatialPoint, destination: GeospatialPoint): Double
+    }
+
     fun getLatitude(): Double = coordinates.getOrElse(0) { 0.0 }
     fun getLongitude(): Double = coordinates.getOrElse(1) { 0.0 }
     fun getAltitude(): Double = (coordinates.getOrElse(2) { 0.0 }) / 1000
 
-    companion object {
-        val HAVERSINE_DISTANCE_FORMULA = fun(source: GeospatialPoint, destination: GeospatialPoint): Double {
-            val haversineFunction: (Double) -> Double = { radian -> ((1 - cos(radian)) / 2) }
-            val latDelta = (destination.getLatitude() - source.getLatitude()).toRadian()
-            val lonDelta = (destination.getLongitude() - source.getLongitude()).toRadian()
-            val latDeltaHav = haversineFunction(latDelta)
-            val lonDeltaHav = haversineFunction(lonDelta)
-            val sqrtResult = sqrt(
-                latDeltaHav +
-                    cos(source.getLatitude().toRadian()) * cos(destination.getLatitude().toRadian()) * lonDeltaHav
-            )
-            return 2 * earthRadiusAverageDistance * asin(sqrtResult)
-        }
-
-        fun calcDistance(
-            source: GeospatialPoint,
-            destination: GeospatialPoint,
-            formula: (GeospatialPoint, GeospatialPoint) -> Double = HAVERSINE_DISTANCE_FORMULA
-        ) = sqrt(
-            formula(source, destination).pow(2) + (source.getAltitude() - destination.getAltitude()).pow(2)
-        )
-    }
+    fun calcDistance(
+        destination: GeospatialPoint,
+        formula: DistanceFormula
+    ): Double = sqrt(
+        formula.calculate(this, destination).pow(2) +
+            (getAltitude() - destination.getAltitude()).pow(2)
+    )
 }
