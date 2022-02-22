@@ -3,6 +3,7 @@ plugins {
     kotlin("plugin.spring") version "1.6.10"
     id("org.springframework.boot") version "2.6.3"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    id("io.gitlab.arturbosch.detekt") version "1.19.0"
 }
 
 allprojects {
@@ -16,11 +17,19 @@ subprojects {
     apply(plugin = "kotlin-spring")
     apply(plugin = "org.springframework.boot")
     apply(plugin = "io.spring.dependency-management")
+    apply(plugin = "io.gitlab.arturbosch.detekt")
 
     group = "com.gourmet"
     version = "0.0.1-SNAPSHOT"
 
+    detekt {
+        buildUponDefaultConfig = true
+        allRules = false
+        config = files("$rootDir/config/detekt.yml")
+    }
+
     dependencies {
+        detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.19.0")
         implementation("org.springframework.boot:spring-boot-starter-webflux")
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
         implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
