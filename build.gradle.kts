@@ -1,3 +1,7 @@
+val reportMerge by tasks.registering(io.gitlab.arturbosch.detekt.report.ReportMergeTask::class) {
+    output.set(rootProject.buildDir.resolve("reports/detekt/detekt.sarif"))
+}
+
 plugins {
     kotlin("jvm") version "1.6.10"
     kotlin("plugin.spring") version "1.6.10"
@@ -49,6 +53,21 @@ subprojects {
         }
         test {
             useJUnitPlatform()
+        }
+        detekt {
+            reports {
+                sarif.required.set(true)
+            }
+        }
+    }
+
+    plugins.withType<io.gitlab.arturbosch.detekt.DetektPlugin>().configureEach {
+        tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach detekt@{
+            finalizedBy(reportMerge)
+
+            reportMerge.configure {
+                input.from(this@detekt.sarifReportFile)
+            }
         }
     }
 }
