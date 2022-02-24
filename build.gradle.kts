@@ -7,6 +7,7 @@ plugins {
     kotlin("plugin.spring") version "1.6.10"
     id("org.springframework.boot") version "2.6.3"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
     id("io.gitlab.arturbosch.detekt") version "1.19.0"
 }
 
@@ -21,6 +22,7 @@ subprojects {
     apply(plugin = "kotlin-spring")
     apply(plugin = "org.springframework.boot")
     apply(plugin = "io.spring.dependency-management")
+    apply(plugin = "org.jlleitschuh.gradle.ktlint")
     apply(plugin = "io.gitlab.arturbosch.detekt")
 
     group = "com.gourmet"
