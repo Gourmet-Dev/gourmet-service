@@ -83,11 +83,6 @@ empty-blocks:
     EmptyKtFile:
         active: false
 
-formatting:
-    active: true
-    NoEmptyClassBody:
-        active: false
-
 naming:
     active: true
     BooleanPropertyNaming:
