@@ -1,8 +1,14 @@
+val reportMerge by tasks.registering(io.gitlab.arturbosch.detekt.report.ReportMergeTask::class) {
+    output.set(rootProject.buildDir.resolve("reports/detekt/detekt.sarif"))
+}
+
 plugins {
     kotlin("jvm") version "1.6.10"
     kotlin("plugin.spring") version "1.6.10"
     id("org.springframework.boot") version "2.6.3"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
+    id("io.gitlab.arturbosch.detekt") version "1.19.0"
 }
 
 allprojects {
@@ -16,9 +22,17 @@ subprojects {
     apply(plugin = "kotlin-spring")
     apply(plugin = "org.springframework.boot")
     apply(plugin = "io.spring.dependency-management")
+    apply(plugin = "org.jlleitschuh.gradle.ktlint")
+    apply(plugin = "io.gitlab.arturbosch.detekt")
 
     group = "com.gourmet"
     version = "0.0.1-SNAPSHOT"
+
+    detekt {
+        buildUponDefaultConfig = true
+        allRules = false
+        config = files("$rootDir/config/detekt.yml")
+    }
 
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter-webflux")
@@ -40,6 +54,21 @@ subprojects {
         }
         test {
             useJUnitPlatform()
+        }
+        detekt {
+            reports {
+                sarif.required.set(true)
+            }
+        }
+    }
+
+    plugins.withType<io.gitlab.arturbosch.detekt.DetektPlugin>().configureEach {
+        tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach detekt@{
+            finalizedBy(reportMerge)
+
+            reportMerge.configure {
+                input.from(this@detekt.sarifReportFile)
+            }
         }
     }
 }

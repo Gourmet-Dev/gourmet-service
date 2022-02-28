@@ -5,7 +5,7 @@ import kotlin.math.cos
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-class GeospatialPoint constructor(vararg params: Double) : Geospatial(params.size, params.toTypedArray()) {
+class GeospatialPoint constructor(vararg params: Double) : Geospatial(params.size, params) {
     enum class DistanceFormula {
         HAVERSINE_DISTANCE_FORMULA {
             override fun calculate(source: GeospatialPoint, destination: GeospatialPoint): Double {
