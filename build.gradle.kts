@@ -60,6 +60,12 @@ subprojects {
                 sarif.required.set(true)
             }
         }
+        bootJar {
+            enabled = false
+        }
+        jar {
+            enabled = true
+        }
     }
 
     plugins.withType<io.gitlab.arturbosch.detekt.DetektPlugin>().configureEach {
@@ -91,5 +97,19 @@ project(":app:gourmet-place-api") {
         implementation(project(":common:gourmet-common-type"))
         implementation(project(":core:gourmet-place-core"))
         implementation(project(":infra:gourmet-place-persistence"))
+    }
+
+    tasks.bootJar {
+        enabled = true
+        destinationDirectory.set(rootProject.buildDir.resolve("service/place-api/"))
+    }
+}
+
+tasks {
+    bootJar {
+        enabled = false
+    }
+    jar {
+        enabled = false
     }
 }
