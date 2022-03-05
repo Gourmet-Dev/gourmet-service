@@ -97,6 +97,7 @@ project(":app:gourmet-place-api") {
         implementation(project(":common:gourmet-common-type"))
         implementation(project(":core:gourmet-place-core"))
         implementation(project(":infra:gourmet-place-persistence"))
+        implementation("org.springframework.boot:spring-boot-starter-actuator")
     }
 
     tasks.bootJar {
