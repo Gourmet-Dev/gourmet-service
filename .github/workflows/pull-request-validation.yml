@@ -1,4 +1,4 @@
-name: Test
+name: pull-request-validation
 
 on: [push]
 
@@ -21,7 +21,7 @@ jobs:
       - name: Check formatting
         run: ./gradlew ktlintCheck
 
-      - name: Check static-analysis
+      - name: Perform static-analysis
         run: ./gradlew detekt
 
       - name: Run unit test
