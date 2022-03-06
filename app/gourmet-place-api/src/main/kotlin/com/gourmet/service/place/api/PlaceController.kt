@@ -12,7 +12,7 @@ import reactor.core.publisher.Flux
 @RequestMapping("/place")
 @ComponentScan("com.gourmet.service")
 class PlaceController(private val service: PlaceService) {
-    @GetMapping("/")
+    @GetMapping("")
     fun getAllPlaces(): Flux<GetAllPlacesResponse> {
         return service.getAllPlaces()
             .map { GetAllPlacesResponse.fromData(it) }
