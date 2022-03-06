@@ -9,6 +9,7 @@ plugins {
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
     id("io.gitlab.arturbosch.detekt") version "1.19.0"
+    id("java-test-fixtures")
 }
 
 allprojects {
@@ -24,6 +25,7 @@ subprojects {
     apply(plugin = "io.spring.dependency-management")
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
     apply(plugin = "io.gitlab.arturbosch.detekt")
+    apply(plugin = "java-test-fixtures")
 
     group = "com.gourmet"
     version = "0.0.1-SNAPSHOT"
@@ -87,6 +89,9 @@ project(":core:gourmet-place-core") {
         implementation(project(":common:gourmet-common-type"))
         implementation(project(":common:gourmet-common-helper"))
         implementation(project(":common:gourmet-common-mocker"))
+        testFixturesImplementation(project(":common:gourmet-common-type"))
+        testFixturesImplementation(project(":common:gourmet-common-helper"))
+        testFixturesImplementation(project(":common:gourmet-common-mocker"))
     }
 }
 
@@ -106,6 +111,7 @@ project(":app:gourmet-place-api") {
         implementation(project(":core:gourmet-place-core"))
         implementation(project(":infra:gourmet-place-persistence"))
         implementation("org.springframework.boot:spring-boot-starter-actuator")
+        testImplementation(testFixtures(project(":core:gourmet-place-core")))
     }
 
     tasks.bootJar {
