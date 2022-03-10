@@ -9,6 +9,7 @@ plugins {
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
     id("io.gitlab.arturbosch.detekt") version "1.19.0"
+    id("java-test-fixtures")
 }
 
 allprojects {
@@ -24,6 +25,7 @@ subprojects {
     apply(plugin = "io.spring.dependency-management")
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
     apply(plugin = "io.gitlab.arturbosch.detekt")
+    apply(plugin = "java-test-fixtures")
 
     group = "com.gourmet"
     version = "0.0.1-SNAPSHOT"
@@ -41,6 +43,9 @@ subprojects {
         implementation("org.jetbrains.kotlin:kotlin-reflect")
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+        testImplementation("io.kotest:kotest-runner-junit5-jvm:4.6.0")
+        testImplementation("io.kotest:kotest-assertions-core:4.6.0")
+        testImplementation("io.mockk:mockk:1.11.0")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
         testImplementation("io.projectreactor:reactor-test")
     }
@@ -82,12 +87,18 @@ subprojects {
 project(":core:gourmet-place-core") {
     dependencies {
         implementation(project(":common:gourmet-common-type"))
+        implementation(project(":common:gourmet-common-helper"))
+        implementation(project(":common:gourmet-common-mocker"))
+        testFixturesImplementation(project(":common:gourmet-common-type"))
+        testFixturesImplementation(project(":common:gourmet-common-helper"))
+        testFixturesImplementation(project(":common:gourmet-common-mocker"))
     }
 }
 
 project(":infra:gourmet-place-persistence") {
     dependencies {
         implementation(project(":common:gourmet-common-type"))
+        implementation(project(":common:gourmet-common-helper"))
         implementation(project(":core:gourmet-place-core"))
     }
 }
@@ -95,9 +106,12 @@ project(":infra:gourmet-place-persistence") {
 project(":app:gourmet-place-api") {
     dependencies {
         implementation(project(":common:gourmet-common-type"))
+        implementation(project(":common:gourmet-common-helper"))
+        implementation(project(":common:gourmet-common-mocker"))
         implementation(project(":core:gourmet-place-core"))
         implementation(project(":infra:gourmet-place-persistence"))
         implementation("org.springframework.boot:spring-boot-starter-actuator")
+        testImplementation(testFixtures(project(":core:gourmet-place-core")))
     }
 
     tasks.bootJar {
