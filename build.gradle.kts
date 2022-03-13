@@ -9,6 +9,7 @@ plugins {
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
     id("io.gitlab.arturbosch.detekt") version "1.19.0"
+    id("org.ajoberstar.grgit") version "5.0.0"
     id("java-test-fixtures")
 }
 
@@ -25,10 +26,12 @@ subprojects {
     apply(plugin = "io.spring.dependency-management")
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
     apply(plugin = "io.gitlab.arturbosch.detekt")
+    apply(plugin = "org.ajoberstar.grgit")
     apply(plugin = "java-test-fixtures")
 
     group = "com.gourmet"
-    version = "0.0.1-SNAPSHOT"
+    version = grgit.describe { longDescr = true }
+        ?: "0.0.0-${grgit.log().size}-g${grgit.head().abbreviatedId}"
 
     detekt {
         buildUponDefaultConfig = true
