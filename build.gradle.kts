@@ -41,6 +41,7 @@ subprojects {
 
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter-webflux")
+        implementation("org.springframework.data:spring-data-commons:2.6.2")
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
         implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
         implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -113,7 +114,6 @@ project(":app:gourmet-place-api") {
         implementation(project(":common:gourmet-common-mocker"))
         implementation(project(":core:gourmet-place-core"))
         implementation(project(":infra:gourmet-place-persistence"))
-        implementation("org.springframework.boot:spring-boot-starter-actuator")
         testImplementation(testFixtures(project(":core:gourmet-place-core")))
     }
 

@@ -8,7 +8,7 @@ import reactor.core.publisher.Flux
 
 @Service
 @ComponentScan("com.gourmet.service")
-class PlaceService(@Qualifier("MockedPlaceRepository") private val repository: PlaceRepository) {
+class PlaceService(@Qualifier("placeRepositoryReference") private val repository: PlaceRepository) {
     fun getAllPlaces(): Flux<GetAllPlacesData> {
         return repository.getAllPlaces()
             .map { GetAllPlacesData.fromPlace(it) }
