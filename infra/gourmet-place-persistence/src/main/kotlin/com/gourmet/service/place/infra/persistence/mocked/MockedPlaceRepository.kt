@@ -12,7 +12,7 @@ class MockedPlaceRepository : PlaceRepository {
         val currentTime = OffsetDateTime.now()
         val places = Flux.just(
             MockedPlaceEntity(
-                0,
+                "0",
                 "TestPlace0",
                 "TestAddress0",
                 null,
@@ -23,7 +23,7 @@ class MockedPlaceRepository : PlaceRepository {
                 currentTime
             ),
             MockedPlaceEntity(
-                1,
+                "1",
                 "TestPlace1",
                 "TestAddress1",
                 "TestThumbnail1",

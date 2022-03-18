@@ -5,7 +5,7 @@ import com.gourmet.service.place.core.domain.Place
 import java.time.OffsetDateTime
 
 data class MockedPlaceEntity(
-    internal val id: Long? = null,
+    internal val id: String? = null,
     internal val name: String,
     internal val addr: String,
     internal val thumbnail: String?,
