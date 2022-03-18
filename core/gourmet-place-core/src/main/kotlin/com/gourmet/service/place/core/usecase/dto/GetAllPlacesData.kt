@@ -8,10 +8,13 @@ data class GetAllPlacesData private constructor(
     val thumbnail: String? = null,
 ) {
     companion object {
-        fun fromPlace(place: Place) = GetAllPlacesData(
-            id = place.id!!,
-            name = place.name,
-            thumbnail = place.thumbnail
-        )
+        fun fromPlace(place: Place) =
+            with(place) {
+                GetAllPlacesData(
+                    id = id!!,
+                    name = name,
+                    thumbnail = thumbnail
+                )
+            }
     }
 }

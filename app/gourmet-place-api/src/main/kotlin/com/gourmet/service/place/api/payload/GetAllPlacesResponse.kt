@@ -11,10 +11,13 @@ data class GetAllPlacesResponse private constructor(
     val thumbnail: String?
 ) {
     companion object {
-        fun fromData(data: GetAllPlacesData) = GetAllPlacesResponse(
-            id = data.id,
-            name = data.name,
-            thumbnail = data.thumbnail
-        )
+        fun fromData(data: GetAllPlacesData) =
+            with(data) {
+                GetAllPlacesResponse(
+                    id = id,
+                    name = name,
+                    thumbnail = thumbnail
+                )
+            }
     }
 }

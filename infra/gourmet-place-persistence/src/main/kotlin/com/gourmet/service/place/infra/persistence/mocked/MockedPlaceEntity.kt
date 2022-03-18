@@ -5,15 +5,15 @@ import com.gourmet.service.place.core.domain.Place
 import java.time.OffsetDateTime
 
 data class MockedPlaceEntity(
-    val id: Long? = null,
-    val name: String,
-    val addr: String,
-    val thumbnail: String?,
-    val images: List<String>,
-    val location: MockedPoint2D,
-    val tags: List<String>,
-    val createdTime: OffsetDateTime? = OffsetDateTime.now(),
-    val updatedTime: OffsetDateTime? = OffsetDateTime.now()
+    internal val id: Long? = null,
+    internal val name: String,
+    internal val addr: String,
+    internal val thumbnail: String?,
+    internal val images: List<String>,
+    internal val location: MockedPoint2D,
+    internal val tags: List<String>,
+    internal val createdTime: OffsetDateTime? = OffsetDateTime.now(),
+    internal val updatedTime: OffsetDateTime? = OffsetDateTime.now()
 ) {
     data class MockedPoint2D(
         val lat: Double,
@@ -42,16 +42,19 @@ data class MockedPlaceEntity(
     )
 
     companion object {
-        fun fromPlace(place: Place) = MockedPlaceEntity(
-            id = place.id,
-            name = place.name,
-            addr = place.addr,
-            thumbnail = place.thumbnail,
-            images = place.images,
-            location = MockedPoint2D.fromGeospatialPoint(place.location),
-            tags = place.tags,
-            createdTime = place.createdTime,
-            updatedTime = place.updatedTime
-        )
+        fun fromPlace(place: Place) =
+            with(place) {
+                MockedPlaceEntity(
+                    id = id,
+                    name = name,
+                    addr = addr,
+                    thumbnail = thumbnail,
+                    images = images,
+                    location = MockedPoint2D.fromGeospatialPoint(location),
+                    tags = tags,
+                    createdTime = createdTime,
+                    updatedTime = updatedTime
+                )
+            }
     }
 }
