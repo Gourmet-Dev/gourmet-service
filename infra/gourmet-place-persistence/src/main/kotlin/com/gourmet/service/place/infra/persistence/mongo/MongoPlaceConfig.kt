@@ -22,10 +22,10 @@ class MongoPlaceConfig(private val persistenceProperties: PlacePersistenceProper
         val connectionURN =
             "${persistenceProperties.host}:${persistenceProperties.port}/${persistenceProperties.database}"
 
-        return if (persistenceProperties.username != null && persistenceProperties.password != null)
-            "$connectionProtocol${persistenceProperties.username}:${persistenceProperties.password}@$connectionURN"
-        else
+        return if (persistenceProperties.username.isNullOrEmpty() || persistenceProperties.password.isNullOrEmpty())
             "$connectionProtocol$connectionURN"
+        else
+            "$connectionProtocol${persistenceProperties.username}:${persistenceProperties.password}@$connectionURN"
     }
 
     private fun createDatabaseFactory(): ReactiveMongoDatabaseFactory =

@@ -1,7 +1,15 @@
 FROM amazoncorretto:11 as place-api
-ENV PLACE_API_VMOPTS="--illegal-access=warn --add-opens java.base/java.time=ALL-UNNAMED"
+
+ARG PLACE_DB_USERNAME
+ENV GOURMET_PLACE_DATABASE_USERNAME ${PLACE_DB_USERNAME}
+
+ARG PLACE_DB_PASSWORD
+ENV GOURMET_PLACE_DATABASE_PASSWORD ${PLACE_DB_PASSWORD}
+
 ARG PLACE_API_APP=build/service/place-api/*.jar
 ARG PLACE_API_PORT=8080
 COPY ${PLACE_API_APP} app.jar
 EXPOSE ${PLACE_API_PORT}
+
+ENV PLACE_API_VMOPTS="--illegal-access=warn --add-opens java.base/java.time=ALL-UNNAMED"
 ENTRYPOINT ["java", "${PLACE_API_VMOPTS}", "-jar", "/app.jar"]
