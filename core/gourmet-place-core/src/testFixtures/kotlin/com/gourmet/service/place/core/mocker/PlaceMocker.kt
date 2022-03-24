@@ -15,7 +15,7 @@ object PlaceMocker {
 
     fun create(id: Long = fetchAndIncreaseCounter()): Place {
         return Place(
-            id,
+            id.toString(),
             "MockedPlace$id",
             "MockedAddress$id",
             "MockedThumbnail$id",
