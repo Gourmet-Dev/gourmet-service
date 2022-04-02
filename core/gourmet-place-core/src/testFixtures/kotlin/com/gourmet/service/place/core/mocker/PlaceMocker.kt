@@ -1,7 +1,7 @@
 package com.gourmet.service.place.core.mocker
 
+import com.gourmet.service.common.mocker.GeospatialPointMocker
 import com.gourmet.service.common.mocker.TimeMocker
-import com.gourmet.service.common.type.GeospatialPoint
 import com.gourmet.service.place.core.domain.Place
 
 object PlaceMocker {
@@ -20,7 +20,7 @@ object PlaceMocker {
             "MockedAddress$id",
             "MockedThumbnail$id",
             listOf("MockedImage$id"),
-            GeospatialPoint(0.0, 0.0),
+            GeospatialPointMocker.create(),
             listOf("MockedTag$id"),
             TimeMocker.create(TimeMocker.TimeDelta(TimeMocker.TimeDelta.Unit.DAY, id.unaryMinus())),
             TimeMocker.create()
