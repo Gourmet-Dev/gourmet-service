@@ -1,7 +1,7 @@
 package com.gourmet.service.place.api
 
 import com.gourmet.service.common.helper.TestUtils
-import com.gourmet.service.place.api.payload.GetAllPlacesPayload
+import com.gourmet.service.place.api.mapper.PlaceResponseMapper
 import com.gourmet.service.place.core.domain.Place
 import com.gourmet.service.place.core.mocker.PlaceMocker
 import com.gourmet.service.place.core.usecase.PlaceService
@@ -29,19 +29,27 @@ class PlaceControllerTest : DescribeSpec() {
     private val manyPlaceFlux = TestUtils.listToFlux(manyPlaceList)
 
     private val emptyPlaceResponseBody = TestUtils.listToJson(
-        emptyPlaceList.map { GetAllPlacesPayload.Response.fromPlace(it) }
+        emptyPlaceList.map(PlaceResponseMapper::toGetAllPlacesResponse)
     )
     private val singlePlaceResponseBody = TestUtils.listToJson(
-        singlePlaceList.map { GetAllPlacesPayload.Response.fromPlace(it) }
+        singlePlaceList.map(PlaceResponseMapper::toGetAllPlacesResponse)
     )
     private val manyPlaceResponseBody = TestUtils.listToJson(
-        manyPlaceList.map { GetAllPlacesPayload.Response.fromPlace(it) }
+        manyPlaceList.map(PlaceResponseMapper::toGetAllPlacesResponse)
     )
 
     init {
         val placeService = mockk<PlaceService>()
+        val placeApiProperties = PlaceApiProperties(
+            "/place"
+        )
+        val placeRouterConfig = PlaceRouterConfig(
+            placeApiProperties,
+            PlaceHandler(placeService)
+        )
+        val placeRouterFunction = placeRouterConfig.router()
         val webTestClient = WebTestClient
-            .bindToController(PlaceController(placeService))
+            .bindToRouterFunction(placeRouterFunction)
             .build()
 
         afterContainer {

@@ -1,4 +1,4 @@
-package com.gourmet.service.place.api.serialize
+package com.gourmet.service.place.api.type
 
 import com.gourmet.service.common.type.GeospatialPoint
 
