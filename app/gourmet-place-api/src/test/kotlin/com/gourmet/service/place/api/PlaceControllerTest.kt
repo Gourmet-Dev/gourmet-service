@@ -58,12 +58,12 @@ class PlaceControllerTest : DescribeSpec() {
         describe("getAllPlaces를") {
             val performRequest = { webTestClient.get().uri("/place").exchange() }
             context("저장된 데이터가 없는 상황에서 요청한 경우") {
-                every { placeService.getAllPlaces() } returns emptyGetAllPlacesDataFlux.log()
+                every { placeService.getAllPlaces(any()) } returns emptyGetAllPlacesDataFlux.log()
                 val response = performRequest()
 
                 it("서비스를 통해 데이터를 조회한다") {
                     verify(exactly = 1) {
-                        placeService.getAllPlaces()
+                        placeService.getAllPlaces(any())
                     }
                 }
                 it("요청은 성공한다") {
@@ -77,12 +77,12 @@ class PlaceControllerTest : DescribeSpec() {
                 }
             }
             context("저장된 데이터가 1개인 상황에서 요청한 경우") {
-                every { placeService.getAllPlaces() } returns singleGetAllPlacesDataFlux.log()
+                every { placeService.getAllPlaces(any()) } returns singleGetAllPlacesDataFlux.log()
                 val response = performRequest()
 
                 it("서비스를 통해 데이터를 조회한다") {
                     verify(exactly = 1) {
-                        placeService.getAllPlaces()
+                        placeService.getAllPlaces(any())
                     }
                 }
                 it("요청은 성공한다") {
@@ -96,12 +96,12 @@ class PlaceControllerTest : DescribeSpec() {
                 }
             }
             context("저장된 데이터가 N개인 상황에서 요청한 경우") {
-                every { placeService.getAllPlaces() } returns manyGetAllPlacesDataFlux.log()
+                every { placeService.getAllPlaces(any()) } returns manyGetAllPlacesDataFlux.log()
                 val response = performRequest()
 
                 it("서비스를 통해 데이터를 조회한다") {
                     verify(exactly = 1) {
-                        placeService.getAllPlaces()
+                        placeService.getAllPlaces(any())
                     }
                 }
                 it("요청은 성공한다") {
