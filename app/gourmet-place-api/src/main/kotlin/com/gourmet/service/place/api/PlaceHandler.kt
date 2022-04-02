@@ -5,7 +5,6 @@ import com.gourmet.service.place.api.mapper.PlaceRequestMapper
 import com.gourmet.service.place.api.mapper.PlaceResponseMapper
 import com.gourmet.service.place.api.payload.GetAllPlacesPayload
 import com.gourmet.service.place.core.usecase.PlaceService
-import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.server.ServerRequest
@@ -15,7 +14,6 @@ import reactor.core.publisher.Mono
 @Component
 @ComponentScan("com.gourmet.service")
 class PlaceHandler(private val service: PlaceService) {
-    private val logger = LoggerFactory.getLogger(PlaceHandler::class.java)
     fun getAllPlaces(request: ServerRequest): Mono<ServerResponse> {
         return HttpUtils.handleRequestAsMono<GetAllPlacesPayload.Request>(request)
             .switchIfEmpty(Mono.just(GetAllPlacesPayload.Request()))
