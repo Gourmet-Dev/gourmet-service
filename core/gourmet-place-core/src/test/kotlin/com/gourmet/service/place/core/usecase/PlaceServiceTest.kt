@@ -3,7 +3,6 @@ package com.gourmet.service.place.core.usecase
 import com.gourmet.service.common.helper.TestUtils
 import com.gourmet.service.place.core.domain.Place
 import com.gourmet.service.place.core.mocker.PlaceMocker
-import com.gourmet.service.place.core.usecase.dto.GetAllPlacesData
 import com.gourmet.service.place.core.usecase.dto.GetAllPlacesOption
 import io.kotest.core.spec.style.BehaviorSpec
 import io.mockk.clearAllMocks
@@ -27,10 +26,6 @@ class PlaceServiceTest : BehaviorSpec() {
     private val singlePlaceFlux = TestUtils.listToFlux(singlePlaceList)
     private val manyPlaceFlux = TestUtils.listToFlux(manyPlaceList)
 
-    private val emptyGetAllPlacesDataList = emptyPlaceList.map { GetAllPlacesData.fromPlace(it) }
-    private val singleGetAllPlacesDataList = singlePlaceList.map { GetAllPlacesData.fromPlace(it) }
-    private val manyGetAllPlacesDataList = manyPlaceList.map { GetAllPlacesData.fromPlace(it) }
-
     init {
         val placeRepository = mockk<PlaceRepository>()
         val service = PlaceService(placeRepository)
@@ -52,7 +47,7 @@ class PlaceServiceTest : BehaviorSpec() {
                 Then("조회된 장소 데이터는 비어 있어야 한다") {
                     result
                         .expectSubscription()
-                        .expectNext(*emptyGetAllPlacesDataList.toTypedArray())
+                        .expectNext(*emptyPlaceList.toTypedArray())
                         .expectComplete()
                         .verify()
                 }
@@ -71,7 +66,7 @@ class PlaceServiceTest : BehaviorSpec() {
                 Then("조회된 장소 데이터에 1개의 장소가 존재해야 한다") {
                     result
                         .expectSubscription()
-                        .expectNext(*singleGetAllPlacesDataList.toTypedArray())
+                        .expectNext(*singlePlaceList.toTypedArray())
                         .expectComplete()
                         .verify()
                 }
@@ -90,7 +85,7 @@ class PlaceServiceTest : BehaviorSpec() {
                 Then("조회된 장소 데이터에 N개의 장소가 존재해야 한다") {
                     result
                         .expectSubscription()
-                        .expectNext(*manyGetAllPlacesDataList.toTypedArray())
+                        .expectNext(*manyPlaceList.toTypedArray())
                         .expectComplete()
                         .verify()
                 }

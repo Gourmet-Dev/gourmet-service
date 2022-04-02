@@ -23,6 +23,6 @@ class PlaceController(private val service: PlaceService) {
             if (page != null && size != null) GetAllPlacesOption.Paging(page, size) else null
         )
         return service.getAllPlaces(option)
-            .map { GetAllPlacesResponse.fromData(it) }
+            .map { GetAllPlacesResponse.fromPlace(it) }
     }
 }

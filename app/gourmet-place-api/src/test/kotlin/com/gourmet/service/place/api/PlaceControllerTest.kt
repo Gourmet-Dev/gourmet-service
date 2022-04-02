@@ -5,7 +5,6 @@ import com.gourmet.service.place.api.payload.GetAllPlacesResponse
 import com.gourmet.service.place.core.domain.Place
 import com.gourmet.service.place.core.mocker.PlaceMocker
 import com.gourmet.service.place.core.usecase.PlaceService
-import com.gourmet.service.place.core.usecase.dto.GetAllPlacesData
 import io.kotest.core.spec.style.DescribeSpec
 import io.mockk.clearAllMocks
 import io.mockk.every
@@ -25,15 +24,9 @@ class PlaceControllerTest : DescribeSpec() {
         *(Array(manyCount) { PlaceMocker.create() })
     )
 
-    private val emptyGetAllPlacesDataFlux = TestUtils.listToFlux(
-        emptyPlaceList.map { GetAllPlacesData.fromPlace(it) }
-    )
-    private val singleGetAllPlacesDataFlux = TestUtils.listToFlux(
-        singlePlaceList.map { GetAllPlacesData.fromPlace(it) }
-    )
-    private val manyGetAllPlacesDataFlux = TestUtils.listToFlux(
-        manyPlaceList.map { GetAllPlacesData.fromPlace(it) }
-    )
+    private val emptyPlaceFlux = TestUtils.listToFlux(emptyPlaceList)
+    private val singlePlaceFlux = TestUtils.listToFlux(singlePlaceList)
+    private val manyPlaceFlux = TestUtils.listToFlux(manyPlaceList)
 
     private val emptyPlaceResponseBody = TestUtils.listToJson(
         emptyPlaceList.map { GetAllPlacesResponse.fromPlace(it) }
@@ -58,7 +51,7 @@ class PlaceControllerTest : DescribeSpec() {
         describe("getAllPlaces를") {
             val performRequest = { webTestClient.get().uri("/place").exchange() }
             context("저장된 데이터가 없는 상황에서 요청한 경우") {
-                every { placeService.getAllPlaces(any()) } returns emptyGetAllPlacesDataFlux.log()
+                every { placeService.getAllPlaces(any()) } returns emptyPlaceFlux.log()
                 val response = performRequest()
 
                 it("서비스를 통해 데이터를 조회한다") {
@@ -77,7 +70,7 @@ class PlaceControllerTest : DescribeSpec() {
                 }
             }
             context("저장된 데이터가 1개인 상황에서 요청한 경우") {
-                every { placeService.getAllPlaces(any()) } returns singleGetAllPlacesDataFlux.log()
+                every { placeService.getAllPlaces(any()) } returns singlePlaceFlux.log()
                 val response = performRequest()
 
                 it("서비스를 통해 데이터를 조회한다") {
@@ -96,7 +89,7 @@ class PlaceControllerTest : DescribeSpec() {
                 }
             }
             context("저장된 데이터가 N개인 상황에서 요청한 경우") {
-                every { placeService.getAllPlaces(any()) } returns manyGetAllPlacesDataFlux.log()
+                every { placeService.getAllPlaces(any()) } returns manyPlaceFlux.log()
                 val response = performRequest()
 
                 it("서비스를 통해 데이터를 조회한다") {
