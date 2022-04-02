@@ -32,6 +32,9 @@ object HttpUtils {
     inline fun <reified T : Any> handleRequestAsFlux(request: ServerRequest): Flux<T> =
         request.bodyToFlux(T::class.java)
 
+    fun parseRequestParam(request: ServerRequest, key: String): String? =
+        request.queryParam(key).orElse(null)
+
     fun identifyTransaction(): Long = transactionId.getAndIncrement()
 
     fun logRequest(transaction: Long, request: ServerRequest) {
