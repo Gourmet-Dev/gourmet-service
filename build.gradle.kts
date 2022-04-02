@@ -89,6 +89,12 @@ subprojects {
     }
 }
 
+project(":common:gourmet-common-helper") {
+    dependencies {
+        implementation(project(":common:gourmet-common-type"))
+    }
+}
+
 project(":common:gourmet-common-mocker") {
     dependencies {
         implementation(project(":common:gourmet-common-type"))

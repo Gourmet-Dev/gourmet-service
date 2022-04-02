@@ -1,19 +1,18 @@
 package com.gourmet.service.common.helper
 
-import org.slf4j.LoggerFactory
-
-import org.springframework.core.io.buffer.DefaultDataBufferFactory
+import com.gourmet.service.common.type.GourmetException
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
+import org.springframework.web.server.ResponseStatusException
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.util.concurrent.atomic.AtomicLong
 
 object HttpUtils {
-    private val logger = LoggerFactory.getLogger(HttpUtils::class.java)
+    private val logger = logger()
     private val transactionId = AtomicLong(0)
-    private val dataBufferFactory = DefaultDataBufferFactory()
 
     inline fun <reified T : Any> buildResponse(
         flux: Flux<T>,
@@ -35,23 +34,20 @@ object HttpUtils {
 
     fun identifyTransaction(): Long = transactionId.getAndIncrement()
 
-    fun logRequest(request: ServerRequest, transaction: Long): ServerRequest {
+    fun logRequest(transaction: Long, request: ServerRequest) {
         logger.info(
             "HTTP-Request-{} (path={}, param={}, method={}, type={}, length={})",
             transaction, request.path(), request.queryParams(), request.methodName(),
             request.headers().contentType().orElse(MediaType.ALL),
-            request.headers().contentLength().orElse(0),
+            request.headers().contentLength().orElse(0)
         )
-        return request
     }
 
-    fun logResponse(response: Mono<ServerResponse>, transaction: Long): Mono<ServerResponse> {
-        response.subscribe { respRef ->
-            logger.info(
-                "HTTP-Response-{} (status={})",
-                transaction, respRef.statusCode()
-            )
-        }
-        return response
+    fun convertException(throwable: Throwable): ResponseStatusException {
+        val gourmetException = throwable as? GourmetException
+        val nonNullStatus = gourmetException?.status ?: HttpStatus.INTERNAL_SERVER_ERROR
+        val nonNullMessage = gourmetException?.message ?: "Unexpected server error"
+
+        return ResponseStatusException(nonNullStatus, nonNullMessage, gourmetException ?: throwable)
     }
 }

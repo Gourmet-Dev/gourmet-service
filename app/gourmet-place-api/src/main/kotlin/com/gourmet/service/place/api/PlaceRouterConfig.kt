@@ -21,7 +21,8 @@ class PlaceRouterConfig(
 
         filter { request, handler ->
             val transactionId = HttpUtils.identifyTransaction()
-            HttpUtils.logResponse(handler(HttpUtils.logRequest(request, transactionId)), transactionId)
+            HttpUtils.logRequest(transactionId, request)
+            handler(request)
         }
     }
 }
