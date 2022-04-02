@@ -1,5 +1,6 @@
 package com.gourmet.service.place.api
 
+import com.gourmet.service.common.type.PagingInformation
 import com.gourmet.service.place.api.payload.GetAllPlacesResponse
 import com.gourmet.service.place.core.usecase.PlaceService
 import com.gourmet.service.place.core.usecase.dto.GetAllPlacesOption
@@ -20,7 +21,7 @@ class PlaceController(private val service: PlaceService) {
         @RequestParam("size", required = false) size: Long?
     ): Flux<GetAllPlacesResponse> {
         val option = GetAllPlacesOption(
-            if (page != null && size != null) GetAllPlacesOption.Paging(page, size) else null
+            if (page != null && size != null) PagingInformation(page, size) else null
         )
         return service.getAllPlaces(option)
             .map { GetAllPlacesResponse.fromPlace(it) }

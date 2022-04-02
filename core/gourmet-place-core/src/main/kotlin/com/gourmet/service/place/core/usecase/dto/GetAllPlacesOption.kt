@@ -1,10 +1,7 @@
 package com.gourmet.service.place.core.usecase.dto
 
+import com.gourmet.service.common.type.PagingInformation
+
 data class GetAllPlacesOption(
-    val pagingInformation: Paging? = null,
-) {
-    data class Paging(
-        val page: Long,
-        val size: Long
-    )
-}
+    val paging: PagingInformation? = null,
+)
