@@ -7,10 +7,16 @@ object GeospatialPointMocker {
     private fun validateCoordinate(coordinate: Double? = null) =
         ((coordinate ?: Random.nextDouble(-180.0, 180.0)) % 180)
 
-    fun create(latitude: Double? = null, longitude: Double? = null, altitude: Double? = null) =
+    fun create(latitude: Double? = null, longitude: Double? = null) =
+        GeospatialPoint(
+            validateCoordinate(latitude),
+            validateCoordinate(longitude)
+        )
+
+    fun create(latitude: Double? = null, longitude: Double? = null, altitude: Double) =
         GeospatialPoint(
             validateCoordinate(latitude),
             validateCoordinate(longitude),
-            altitude ?: Random.nextDouble(0.0, 1000000.0)
+            altitude
         )
 }

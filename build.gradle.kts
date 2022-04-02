@@ -110,6 +110,7 @@ project(":infra:gourmet-place-persistence") {
     dependencies {
         implementation(project(":common:gourmet-common-type"))
         implementation(project(":common:gourmet-common-helper"))
+        implementation(project(":common:gourmet-common-mocker"))
         implementation(project(":core:gourmet-place-core"))
     }
 }

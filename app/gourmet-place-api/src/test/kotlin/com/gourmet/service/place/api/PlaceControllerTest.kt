@@ -1,6 +1,7 @@
 package com.gourmet.service.place.api
 
 import com.gourmet.service.common.helper.TestUtils
+import com.gourmet.service.place.api.payload.GetAllPlacesResponse
 import com.gourmet.service.place.core.domain.Place
 import com.gourmet.service.place.core.mocker.PlaceMocker
 import com.gourmet.service.place.core.usecase.PlaceService
@@ -35,13 +36,13 @@ class PlaceControllerTest : DescribeSpec() {
     )
 
     private val emptyPlaceResponseBody = TestUtils.listToJson(
-        emptyPlaceList.map { GetAllPlacesData.fromPlace(it) }
+        emptyPlaceList.map { GetAllPlacesResponse.fromPlace(it) }
     )
     private val singlePlaceResponseBody = TestUtils.listToJson(
-        singlePlaceList.map { GetAllPlacesData.fromPlace(it) }
+        singlePlaceList.map { GetAllPlacesResponse.fromPlace(it) }
     )
     private val manyPlaceResponseBody = TestUtils.listToJson(
-        manyPlaceList.map { GetAllPlacesData.fromPlace(it) }
+        manyPlaceList.map { GetAllPlacesResponse.fromPlace(it) }
     )
 
     init {

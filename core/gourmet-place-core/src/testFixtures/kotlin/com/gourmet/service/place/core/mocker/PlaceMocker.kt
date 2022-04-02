@@ -20,7 +20,7 @@ object PlaceMocker {
             "MockedAddress$id",
             "MockedThumbnail$id",
             listOf("MockedImage$id"),
-            GeospatialPointMocker.create(),
+            GeospatialPointMocker.create(id.toDouble(), id.toDouble()),
             listOf("MockedTag$id"),
             TimeMocker.create(TimeMocker.TimeDelta(TimeMocker.TimeDelta.Unit.DAY, id.unaryMinus())),
             TimeMocker.create()
