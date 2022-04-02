@@ -1,13 +1,12 @@
 package com.gourmet.service.place.api
 
-import com.gourmet.service.common.type.PagingInformation
-import com.gourmet.service.place.api.payload.GetAllPlacesResponse
+import com.gourmet.service.place.api.payload.GetAllPlacesPayload
 import com.gourmet.service.place.core.usecase.PlaceService
 import com.gourmet.service.place.core.usecase.dto.GetAllPlacesOption
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import reactor.core.publisher.Flux
 
@@ -17,13 +16,10 @@ import reactor.core.publisher.Flux
 class PlaceController(private val service: PlaceService) {
     @GetMapping("")
     fun getAllPlaces(
-        @RequestParam("page", required = false) page: Long?,
-        @RequestParam("size", required = false) size: Long?
-    ): Flux<GetAllPlacesResponse> {
-        val option = GetAllPlacesOption(
-            if (page != null && size != null) PagingInformation(page, size) else null
-        )
+        @RequestBody(required = false) request: GetAllPlacesPayload.Request?
+    ): Flux<GetAllPlacesPayload.Response> {
+        val option = request?.toOption() ?: GetAllPlacesOption()
         return service.getAllPlaces(option)
-            .map { GetAllPlacesResponse.fromPlace(it) }
+            .map { GetAllPlacesPayload.Response.fromPlace(it) }
     }
 }
