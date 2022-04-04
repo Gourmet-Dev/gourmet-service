@@ -89,6 +89,18 @@ subprojects {
     }
 }
 
+project(":common:gourmet-common-helper") {
+    dependencies {
+        implementation(project(":common:gourmet-common-type"))
+    }
+}
+
+project(":common:gourmet-common-mocker") {
+    dependencies {
+        implementation(project(":common:gourmet-common-type"))
+    }
+}
+
 project(":core:gourmet-place-core") {
     dependencies {
         implementation(project(":common:gourmet-common-type"))
@@ -104,6 +116,7 @@ project(":infra:gourmet-place-persistence") {
     dependencies {
         implementation(project(":common:gourmet-common-type"))
         implementation(project(":common:gourmet-common-helper"))
+        implementation(project(":common:gourmet-common-mocker"))
         implementation(project(":core:gourmet-place-core"))
     }
 }
